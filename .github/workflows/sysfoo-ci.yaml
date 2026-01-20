@@ -23,4 +23,4 @@ jobs:
         run: mvn -B install --file pom.xml
  
       - name: View artifact
-        run: ls -lart
+        run: ls -lart target
