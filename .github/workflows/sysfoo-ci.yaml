@@ -1,26 +1,65 @@
 name: sysfoo-ci
-on: 
+
+on:  
+
   push:
+
+    branches:
+
+      - 'master'
+
 jobs:
+
   sysfoo-ci-job:
+
     runs-on: ubuntu-24.04
+
     steps:
+
       - name: sysfoo-ci
+
         run: echo "Welcome to sysfoo!!"
+
       - name: Code Checkout
+
         uses: actions/checkout@v6
+
       - name: Set up JDK 17
+
         uses: actions/setup-java@v4
+
         with:
+
           java-version: '17'
+
           distribution: 'temurin'
+
           cache: maven
+
       - name: Run Maven Tests
+
         run: mvn -B test --file pom.xml
+
       - name: Package Maven Project
+
         run: mvn -B package --file pom.xml
+
       - name: Install Maven Project to Local Repo
+
         run: mvn -B install --file pom.xml
  
       - name: View artifact
+
         run: ls -lart target
+ 
+      - name: Upload WAR artifact
+
+        uses: actions/upload-artifact@v6
+
+        with:
+
+          name: sysfoo-war
+
+          path: target/**.war
+
+          retention-days: 5
